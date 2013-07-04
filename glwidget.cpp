@@ -1,5 +1,12 @@
 #include "glwidget.h"
 
-GLWidget::GLWidget()
+GLWidget::GLWidget(QObject* parent)
 {
 }
+
+GLWidget::~GLWidget()
+{
+
+}
+
+
