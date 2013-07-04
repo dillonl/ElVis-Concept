@@ -34,22 +34,39 @@ void HttpServer::handle_request(QHttpRequest* request, QHttpResponse* response)
 	if (request->method() == QHttpRequest::HTTP_GET)
 	{
 		QString path = request->path();
-		path = (QString::compare(path, "/") == 0) ? "/index.html" : path;
-		path = "html" + path;
 
-		QString fileString = get_file_string(path);
-		if (fileString == NULL)
+		if (path.startsWith("/message/")) // this is a json request that is not a file request
 		{
-			response->writeHead(QHttpResponse::STATUS_NOT_FOUND);
-			response->end("Requested File Not Found");
+			QString jsonResponse = QString("{\"startWebGL\": \"true\", \"value\": \"7\"}");
+			QString contentLength = QString::number(jsonResponse.size());
+			response->setHeader("content-type", "application/json; charset=utf-8");
+			response->setHeader("Content-Length", contentLength);
+			response->setHeader("version", "HTTP/1.1");
+			response->setHeader("Date", "Thu, 04 Jul 2013 11:39:30 GMT");
+			response->writeHead(200);
+			response->write(jsonResponse);
+
+			response->end();
 		}
 		else
 		{
-			QString contentLength = QString::number(fileString.size());
-			response->setHeader("Content-Length", contentLength);
-			response->writeHead(200);
-			response->write(fileString);
-			response->end();
+			path = (QString::compare(path, "/") == 0) ? "/index.html" : path;
+			path = "html" + path;
+
+			QString fileString = get_file_string(path);
+			if (fileString == NULL)
+			{
+				response->writeHead(QHttpResponse::STATUS_NOT_FOUND);
+				response->end("Requested File Not Found");
+			}
+			else
+			{
+				QString contentLength = QString::number(fileString.size());
+				response->setHeader("Content-Length", contentLength);
+				response->writeHead(200);
+				response->write(fileString);
+				response->end();
+			}
 		}
 	}
 }
