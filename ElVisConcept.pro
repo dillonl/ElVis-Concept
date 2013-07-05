@@ -1,5 +1,7 @@
 greaterThan(QT_MAJOR_VERSION, 4):QT += widgets webkitwidgets
 
+QT += opengl
+
 # Add more folders to ship with the application, here
 folder_01.source = html
 folder_01.target = .

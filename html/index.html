@@ -10,7 +10,7 @@
             });
 
 			function toggleOpenGLWindow() {
-				$('#test').html('sending');
+				$('#test').html('sending request');
 				sendGet();
 			}
 
@@ -18,6 +18,7 @@
 			$.get('http://localhost:4848/message/create-opengl-window',
 				function (data) {
 					if (data.startWebGL) {
+						$('#test').html('response received');
 						init();
 					}
 				}
@@ -31,7 +32,7 @@
 					printObject(test);
 				},
 				success: function (data) {
-					$('#test').html('response');
+					$('#test').html('response received');
 				}
 			});
 			}
@@ -122,7 +123,7 @@ function init() {
         <h1>Hello</h1>
         <h1>HTML5</h1>
 		<h1 id="test">World</h1>
-		<button onclick="toggleOpenGLWindow()">Create OpenGL Window</button>
+		<a href="javascript:void(0)" onclick="toggleOpenGLWindow()">Create OpenGL Window</a>
 		<canvas id="webgl" width="640" height="480"></canvas>
     </body>
 </html>

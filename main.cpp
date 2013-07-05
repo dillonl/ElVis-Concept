@@ -8,6 +8,8 @@
 
 #include "httpserver.h"
 
+bool REMOTE = true; // ultimately this is not the way I want to keep track of local vs remote
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -17,7 +19,7 @@ int main(int argc, char *argv[])
 	Html5ApplicationViewer viewer;
 	if (!argList.contains("-remote")) // only create the viewer if local (not remote)
 	{
-
+        REMOTE = false;
 		viewer.setOrientation(Html5ApplicationViewer::ScreenOrientationAuto);
 		viewer.showExpanded();
 		viewer.loadFile(QLatin1String("html/index.html"));

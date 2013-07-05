@@ -1,6 +1,12 @@
 #include <QFile>
 
+#include <iostream>
+
 #include "httpserver.h"
+
+#include "glwidget.h"
+
+extern bool REMOTE;
 
 HttpServer::HttpServer(QObject* parent) : QObject(parent), m_server(NULL)
 {
@@ -35,8 +41,9 @@ void HttpServer::handle_request(QHttpRequest* request, QHttpResponse* response)
 	{
 		QString path = request->path();
 
-		if (path.startsWith("/message/")) // this is a json request that is not a file request
+        if (path.startsWith("/message/")) // this is a json request and not a file request, I'll probably replace this code with websockets
 		{
+            // whether we use regular http or websockets we'll implement a message handling class that uses signals and slots to update the UI
 			QString jsonResponse = QString("{\"startWebGL\": \"true\", \"value\": \"7\"}");
 			QString contentLength = QString::number(jsonResponse.size());
 			response->setHeader("content-type", "application/json; charset=utf-8");
@@ -47,13 +54,19 @@ void HttpServer::handle_request(QHttpRequest* request, QHttpResponse* response)
 			response->write(jsonResponse);
 
 			response->end();
+
+            if (!REMOTE)
+            {
+                GLWidget* widget = new GLWidget();
+                widget->show();
+            }
 		}
 		else
 		{
 			path = (QString::compare(path, "/") == 0) ? "/index.html" : path;
 			path = "html" + path;
 
-			QString fileString = get_file_string(path);
+            QString fileString = get_file_string(path);
 			if (fileString == NULL)
 			{
 				response->writeHead(QHttpResponse::STATUS_NOT_FOUND);
@@ -73,7 +86,13 @@ void HttpServer::handle_request(QHttpRequest* request, QHttpResponse* response)
 
 QString HttpServer::get_file_string(QString path)
 {
-	QFile file(path);
+    QString pwd("");
+    char * PWD;
+    PWD = getenv ("PWD");
+    pwd.append(PWD);
+    // in windows the relative path works fine but I still have to use this hack for osx
+
+    QFile file(pwd.toStdString() + path);
 	bool ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
 	if( ret )
 	{
