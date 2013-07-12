@@ -25,7 +25,9 @@ SOURCES += main.cpp \
     qhttpconnection.cpp \
     qhttprequest.cpp \
     http_parser.cpp \
-    glwidget.cpp
+    glwidget.cpp \
+    qwsserver.cpp \
+    qwssocket.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(html5applicationviewer/html5applicationviewer.pri)
@@ -40,4 +42,6 @@ HEADERS += \
     qhttpconnection.h \
     qhttprequest.h \
     http_parser.h \
-    glwidget.h
+    glwidget.h \
+    qwsserver.h \
+    qwssocket.h

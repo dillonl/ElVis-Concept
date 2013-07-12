@@ -6,6 +6,8 @@
 
 #include "html5applicationviewer.h"
 
+#include "qwsserver.h"
+
 #include "httpserver.h"
 
 bool REMOTE = true; // ultimately this is not the way I want to keep track of local vs remote
@@ -26,8 +28,11 @@ int main(int argc, char *argv[])
 		viewer.resize(QApplication::desktop()->screen()->rect().width() * .7, QApplication::desktop()->screen()->rect().height() * 0.7); // ensure the application will take up 70% of the screen in both directions
 		viewer.move(QApplication::desktop()->screen()->rect().center() - viewer.rect().center()); // this centers our application on the screen
 	}
-	HttpServer server; // create and start a server
-	server.start(4848);
+	HttpServer httpServer; // create and start an HTTP server (this is not the WebSocket server)
+	httpServer.start(4848);
+
+	QWsServer webSocketServer;
+	webSocketServer.listen(QHostAddress::Any, 4849);
 
 	return app.exec();
 }
