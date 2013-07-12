@@ -92,7 +92,7 @@ QString HttpServer::get_file_string(QString path)
     pwd.append(PWD);
     // in windows the relative path works fine but I still have to use this hack for osx
 
-    QFile file(pwd.toStdString() + path);
+    QFile file(pwd + path);
 	bool ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
 	if( ret )
 	{
