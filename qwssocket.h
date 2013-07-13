@@ -17,6 +17,9 @@ enum EWebsocketVersion
 	WS_V13 = 13
 };
 
+class QWsSocket;
+typedef QPointer<QWsSocket> SocketHandle;
+
 class QWsSocket : public QAbstractSocket
 {
 	Q_OBJECT

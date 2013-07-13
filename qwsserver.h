@@ -8,8 +8,12 @@
 #include <QStringList>
 #include <QMap>
 #include <QQueue>
+#include <QPointer>
 
 #include "QWsSocket.h"
+
+class QWsServer;
+typedef QPointer<QWsServer> ServerHandle;
 
 class QWsServer : public QObject
 {

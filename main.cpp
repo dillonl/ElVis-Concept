@@ -6,7 +6,7 @@
 
 #include "html5applicationviewer.h"
 
-#include "qwsserver.h"
+#include "websocketserver.h"
 
 #include "httpserver.h"
 
@@ -17,6 +17,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
 	QStringList argList = QCoreApplication::arguments();
+
+	WebSocketServer socket_server;
+	socket_server.start(4849);
 
 	Html5ApplicationViewer viewer;
 	if (!argList.contains("-remote")) // only create the viewer if local (not remote)
@@ -30,9 +33,6 @@ int main(int argc, char *argv[])
 	}
 	HttpServer httpServer; // create and start an HTTP server (this is not the WebSocket server)
 	httpServer.start(4848);
-
-	QWsServer webSocketServer;
-	webSocketServer.listen(QHostAddress::Any, 4849);
 
 	return app.exec();
 }

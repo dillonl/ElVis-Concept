@@ -7,7 +7,6 @@ class GLWidget : public QGLWidget
 {
 	Q_OBJECT
 public:
-//    GLWidget(QObject* parent=NULL);
     GLWidget(QWidget* parent = NULL);
 	~GLWidget();
 

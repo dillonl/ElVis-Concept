@@ -27,7 +27,9 @@ SOURCES += main.cpp \
     http_parser.cpp \
     glwidget.cpp \
     qwsserver.cpp \
-    qwssocket.cpp
+    qwssocket.cpp \
+    messagefactory.cpp \
+    websocketserver.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(html5applicationviewer/html5applicationviewer.pri)
@@ -44,4 +46,6 @@ HEADERS += \
     http_parser.h \
     glwidget.h \
     qwsserver.h \
-    qwssocket.h
+    qwssocket.h \
+    messagefactory.h \
+    websocketserver.h
